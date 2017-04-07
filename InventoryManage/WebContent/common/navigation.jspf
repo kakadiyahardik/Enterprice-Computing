@@ -1,0 +1,14 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">InventoryManage</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="<%= application.getContextPath() %>/ItemController?action=viewitem">Home</a></li>
+      <li><a href="additem.jsp"> Add New Item </a></li>
+      <li><a href="<%= application.getContextPath() %>/ItemController?action=understock"> Item under Stock </a></li>
+      <li><a href="categorywise.jsp">categorywise</a></li>
+      <li><a href="<%= application.getContextPath() %>/ItemController?action=godeletepage">Delete multiple</a></li>
+    </ul>
+  </div>
+</nav>
