@@ -4,7 +4,7 @@ public class User {
 	String email;
 	String password;
 	String name;
-	int phone;
+	long phone;
 	String add;
 	public String getEmail() {
 		return email;
@@ -24,10 +24,10 @@ public class User {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getPhone() {
+	public long getPhone() {
 		return phone;
 	}
-	public void setPhone(int phone) {
+	public void setPhone(long phone) {
 		this.phone = phone;
 	}
 	public String getAdd() {

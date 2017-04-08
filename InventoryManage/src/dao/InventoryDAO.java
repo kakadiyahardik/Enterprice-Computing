@@ -61,7 +61,7 @@ public class InventoryDAO
 			i.setCost(rs.getDouble(5));
 			i.setCategory(rs.getInt(6));
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		 
@@ -132,7 +132,7 @@ public class InventoryDAO
 				 items.add(i);
 			 }
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		 return items;
@@ -231,6 +231,54 @@ public class InventoryDAO
 	 }
 	 
 	 //from here there is the operation of the user only
+	 public void addUser(User user)throws DAOException, SQLException
+	 {
+		 try{
+		 PreparedStatement ps=con.prepareStatement("insert into public.user(user_id,email,password,name,phone,address) values(DEFAULT,?,?,?,?,?)");
+		
+		 ps.setString(1,user.getEmail());
+		 ps.setString(2,user.getPassword());
+		 ps.setString(3, user.getName());
+		 ps.setLong(4, user.getPhone());
+		 ps.setString(5, user.getAdd());
+		 //System.out.println(ps.toString());
+		 ps.executeUpdate();
+		 }
+		 catch(Exception e){
+			 System.out.println(e+ "problem in add user");
+		 }
+	 }
+	 
+	 public User validateLogin(String un,String pass)
+	 {
+		 String sql="select * from public.user where email=? and password=?";
+		
+		
+		 User user=new User();
+		
+		 try {
+			 PreparedStatement ps=con.prepareStatement(sql);
+			 ps.setString(1, un);
+			 ps.setString(2, pass);
+			 
+			 ResultSet rs=ps.executeQuery();
+			 
+			 if(rs.next())
+			 {
+				user.setEmail(rs.getString(2));
+				user.setName(rs.getString(4));
+			 }
+			 else
+			 {
+				 return null;
+			 }
+			 
+		} catch (SQLException e) {
+			
+			System.out.println(e+" error at the time of login");
+		}
+		return user;	
+	}
 	 
 	
 }

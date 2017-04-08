@@ -1,0 +1,19 @@
+1487582595478	Delete element
+1487582788649	Encapsulate field 'session'
+1487608603361	Encapsulate field 'salary'
+1487608612502	Encapsulate field 'id'
+1487608616431	Encapsulate field 'name'
+1487609625318	Delete element
+1487611102925	Rename type 'JadbcImplo'
+1487613400858	Rename type 'Circle'
+1487613475132	Encapsulate field 'emp_id'
+1487613479416	Encapsulate field 'emp_name'
+1487768321765	Delete element
+1487769216816	Encapsulate field 'dataSource'
+1487784590180	Encapsulate field 'empId'
+1487784593991	Encapsulate field 'empName'
+1487823242639	Delete element
+1487912717564	Encapsulate field 'dataSource'
+1487926372506	Encapsulate field 'jdbcTemplate'
+1487951538832	Delete elements
+1487951542510	Delete element

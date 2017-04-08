@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring accessors="true" comment="Delete 4 elements from project &apos;GhostStarter&apos;&#x0D;&#x0A;- Original project: &apos;GhostStarter&apos;&#x0D;&#x0A;- Original elements:&#x0D;&#x0A;     Dictionary.class&#x0D;&#x0A;     GhostDictionary.class&#x0D;&#x0A;     GhostStarter.class&#x0D;&#x0A;     TrieNode.class" description="Delete elements" element1="Work/GhostDictionary.class" element2="Work/GhostStarter.class" element3="Work/Dictionary.class" element4="Work/TrieNode.class" elements="0" flags="589830" id="org.eclipse.jdt.ui.delete" resources="4" stamp="1478782449707" subPackages="false" version="1.0"/>
+</session>

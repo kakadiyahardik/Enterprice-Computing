@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;Lab02.DataSet&apos; to &apos;DataSetDemo&apos;&#x0D;&#x0A;- Original project: &apos;Enterprise Computing&apos;&#x0D;&#x0A;- Original element: &apos;Lab02.DataSet&apos;&#x0D;&#x0A;- Renamed element: &apos;Lab02.DataSetDemo&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;DataSet&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;Lab02{DataSet.java[DataSet" matchStrategy="1" name="DataSetDemo" qualified="false" references="true" similarDeclarations="false" stamp="1484903228223" textual="false" version="1.0"/>
+</session>

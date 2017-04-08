@@ -1,0 +1,8 @@
+package Q5;
+
+public class Question {
+	private String q;
+	private String[] op;
+	private String an;
+
+}

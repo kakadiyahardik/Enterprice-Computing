@@ -1,0 +1,64 @@
+package P1;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import Model.Emp;
+
+@Component
+public class JdbcDaoImpl 
+{
+	@Autowired
+	private DataSource dataSource;
+	public Emp getEmp(int id)
+	{
+		Connection con=null;
+		
+		try
+		{
+			con=dataSource.getConnection();
+			PreparedStatement ps=con.prepareStatement("SELECT * from EMP where emp_id = ?");
+			ps.setInt(1, id);
+			
+			Emp e=null;
+			ResultSet rs=ps.executeQuery();
+			
+			if(rs.next())
+			{
+				e=new Emp(id,rs.getString("emp_name"));
+			}
+			
+			return e; 
+		}
+		catch(Exception e)
+		{
+			System.out.println("yes");
+			throw new RuntimeException(e);
+		}
+		finally
+		{
+			try 
+			{
+				con.close();
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	public DataSource getDataSource() {
+		return dataSource;
+	}
+	public void setDataSource(DataSource dataSource) {
+		this.dataSource = dataSource;
+	}
+}

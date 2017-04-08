@@ -1,0 +1,253 @@
+package controller;
+
+import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Properties;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import dao.InventoryDAO;
+import model.Category;
+import model.Inventory;
+import model.User;
+
+
+@WebServlet("/ItemController")
+public class ItemController extends HttpServlet {
+	
+	
+	protected void controll(HttpServletRequest req, HttpServletResponse res)throws ServletException, IOException, ClassNotFoundException, SQLException{
+		
+		String action=req.getParameter("action");
+		
+		if(action==null)
+			action="viewitem";
+		
+		if(action.equals("viewitem"))
+		{
+			 String view = "catalogue_view.jsp";
+		        
+		        try
+		        {
+		        	setStock(req, res);
+		        }
+		        catch(Exception e) {
+		        	
+		            req.setAttribute("error", e.toString() + ";[ShowCat.java]");
+		        }
+
+		     req.getRequestDispatcher(view).forward(req, res);
+		}
+		else if(action.equals("insert"))
+		{
+			//int icode=Integer.parseInt(req.getParameter("icode"));
+			String des=req.getParameter("des");
+			int stock=Integer.parseInt(req.getParameter("stock"));
+			int min_stock=Integer.parseInt(req.getParameter("min_stock"));
+			double cos=Double.parseDouble(req.getParameter("cost"));
+			int cateid=Integer.parseInt(req.getParameter("cat"));
+			
+			try
+			{
+	            InventoryDAO inventory = new InventoryDAO();
+	            Inventory item=new Inventory();
+	            
+	           // item.setCode(icode);
+	            item.setDescription(des);
+	            item.setStock(stock);
+	            item.setMinStock(min_stock);
+	            item.setCost(cos);
+	            item.setCategory(cateid);
+	            
+	            inventory.InsertItem(item);
+	            setStock(req, res);
+	        }
+	        catch(Exception e) {
+	        	
+	            req.setAttribute("error", e.toString() + ";[ShowCat.java]");
+	            
+	        }
+			req.getRequestDispatcher("catalogue_view.jsp").forward(req, res);
+		}
+		else if(action.equals("deleteitem"))
+		{
+			int icode=Integer.parseInt(req.getParameter("icode"));
+			InventoryDAO in=new InventoryDAO();
+			
+			in.deleteItem(icode);
+			
+            setStock(req, res);
+			req.getRequestDispatcher("catalogue_view.jsp").forward(req, res);
+		}
+		else if(action.equals("edititem"))
+		{
+			int icode=Integer.parseInt(req.getParameter("icode"));
+			
+			Inventory in=new InventoryDAO().getItem(icode);
+			
+			req.setAttribute("editdetail", in);
+			req.getRequestDispatcher("edit.jsp").forward(req, res);
+			
+		}
+		else if(action.equals("update"))
+		{
+			int icode=Integer.parseInt(req.getParameter("icode"));
+			String des=req.getParameter("des");
+			int stock=Integer.parseInt(req.getParameter("stock"));
+			int min_stock=Integer.parseInt(req.getParameter("min_stock"));
+			double cos=Double.parseDouble(req.getParameter("cost"));
+			int cateid=Integer.parseInt(req.getParameter("cat"));
+			
+			try
+			{
+	            InventoryDAO inventory = new InventoryDAO();
+	            Inventory item=new Inventory();
+	            
+	            item.setCode(icode);
+	            item.setDescription(des);
+	            item.setStock(stock);
+	            item.setMinStock(min_stock);
+	            item.setCost(cos);
+	            item.setCategory(cateid);
+	            
+	            inventory.updateItem(item);
+	            setStock(req, res);
+	        }
+	        catch(Exception e) {
+	        	
+	            req.setAttribute("error", e.toString() + ";[ShowCat.java]");
+	            
+	        }
+			req.getRequestDispatcher("catalogue_view.jsp").forward(req, res);
+		}
+		else if(action.equals("understock"))
+		{
+			InventoryDAO in=new InventoryDAO();
+			ArrayList<Inventory> items = in.getUnderStock();
+	        req.setAttribute("understock", items);
+	        req.getRequestDispatcher("understock.jsp").forward(req, res);
+		}
+		else if(action.equals("catwise"))
+		{
+			int cat=Integer.parseInt(req.getParameter("cat"));
+			InventoryDAO in=new InventoryDAO();
+			ArrayList<Inventory> items = in.selectCatWise(cat);
+	        req.setAttribute("catwise", items);
+	        req.getRequestDispatcher("categorywise.jsp").forward(req, res);
+		}
+		else if(action.equals("godeletepage"))
+		{
+			setStock(req,res);
+			req.getRequestDispatcher("multidelete.jsp").forward(req, res);
+		}
+		else if(action.equals("delmulti"))
+		{
+			String []did=req.getParameterValues("dmi");
+			
+			InventoryDAO in=new InventoryDAO();
+			
+			for(int i=0;i<did.length;i++){
+				int icode=Integer.parseInt(did[i]);
+				in.deleteItem(icode);
+			}
+
+            setStock(req, res);
+			req.getRequestDispatcher("catalogue_view.jsp").forward(req, res);
+		}
+		
+		
+		//for the user response and handle him
+		if(action.equals("register"))
+		{
+			String email=req.getParameter("email");
+			String pass=req.getParameter("password");
+			String name=req.getParameter("name");
+			String phone=req.getParameter("phone");
+			String add=req.getParameter("add");
+			
+			User user=new User();
+			user.setEmail(email);
+			user.setPassword(encriptPass(pass));
+			user.setName(name);
+			user.setPhone(Integer.parseInt(phone));
+			
+			System.out.println(encriptPass(pass));
+		}
+	}
+	
+	//this method is for encript password
+	
+	public String encriptPass(String pass)
+	{
+		if (pass == null || pass.length() == 0) {
+	        throw new IllegalArgumentException(
+	                "String to encrypt cannot be null or zero length");
+	    }
+
+	    StringBuffer hexString = new StringBuffer();
+
+	    try {
+	        MessageDigest md = MessageDigest.getInstance("MD5");
+	        md.update(pass.getBytes());
+	        byte[] hash = md.digest();
+
+	        for (int i = 0; i < hash.length; i++) {
+	            if ((0xff & hash[i]) < 0x10) {
+	                hexString.append("0"
+	                        + Integer.toHexString((0xFF & hash[i])));
+	            } else {
+	                hexString.append(Integer.toHexString(0xFF & hash[i]));
+	            }
+	        }
+	    } catch (NoSuchAlgorithmException e) {
+	    		System.out.println("problem in password encription");
+	    }
+
+	    return hexString.toString();
+	}
+	
+	//this method is for set stock from database to attribute so it can be aaccess in jsp file
+	public void setStock(HttpServletRequest req, HttpServletResponse res) throws ClassNotFoundException, SQLException{
+		InventoryDAO in=new InventoryDAO();
+		ArrayList<Inventory> items = in.getItems();
+        req.setAttribute("stock", items);
+       /* for(Category c:in.getCategory()){
+        	System.out.println(c.getCateid()+" "+c.getCatename());
+        }*/
+        
+       // ArrayList<Category> c=in.getCategory();
+       // req.setAttribute("category",c);
+	}
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try {
+			controll(request,response);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try {
+			controll(request, response);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+}

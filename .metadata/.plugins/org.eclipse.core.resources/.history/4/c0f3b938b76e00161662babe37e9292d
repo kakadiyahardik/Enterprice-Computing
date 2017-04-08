@@ -1,0 +1,25 @@
+package Q5;
+
+import java.util.HashMap;
+
+public class Quiz {
+
+	private String q;
+	private String[] op1=new String[4];
+	private char an;
+	
+	HashMap<Integer,Question> data=new HashMap<Integer,Question>();
+	static int cnt=0;
+	
+	Quiz()
+	{
+		q="What is the size of boolean variable?";
+		op1[0]="8 bit";
+		op1[1]="16 bit";
+		op1[1]="32 bit";
+		op1[1]="None of the above";
+		an='b';
+		Question t=new Question(q,op1,an);
+		this.data.put(1, t);
+	}
+}

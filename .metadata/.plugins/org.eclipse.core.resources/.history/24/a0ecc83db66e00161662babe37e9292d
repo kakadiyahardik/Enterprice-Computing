@@ -1,0 +1,19 @@
+package Q5;
+
+import java.util.HashMap;
+
+public class Quiz {
+
+	private String q;
+	//private String[] op1=new String[4];
+	private char an;
+	
+	HashMap<Integer,Question> data=new HashMap<Integer,Question>();
+	static int cnt=0;
+	
+	Quiz()
+	{
+		q="What is the size of boolean variable?";
+		private String[] op1= {"Ankit","Bohra","Xyz"};
+	}
+}

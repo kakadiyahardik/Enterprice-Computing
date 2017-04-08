@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workingSetManager>
+<workingSet editPageId="org.eclipse.ui.resourceWorkingSetPage" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1472309390371_1" label="Week-3" name="Week-3">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/OOPS&amp;DS" type="4"/>
+</workingSet>
+<workingSet editPageId="org.eclipse.ui.resourceWorkingSetPage" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1490452117306_2" label="in28Minutes-first-webapp" name="in28Minutes-first-webapp"/>
+<workingSet editPageId="org.eclipse.ui.resourceWorkingSetPage" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1490452248476_3" label="Step07" name="Step07">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/in28Minutes-first-webapp" type="4"/>
+</workingSet>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1470369738403_0" label="Window Working Set" name="Aggregate for window 1470369738388"/>
+<mruList name="Week-3"/>
+</workingSetManager>

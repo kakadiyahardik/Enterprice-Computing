@@ -1,0 +1,8 @@
+package Q5;
+
+public class QuizTime {
+	public static void main(String []args)
+	{
+		
+	}
+}

@@ -1,0 +1,8 @@
+package Q5;
+
+import java.util.HashMap;
+
+public class Quiz {
+
+	HashMap<Integer,Question> data=new HashMap<Integer,Question>();
+}

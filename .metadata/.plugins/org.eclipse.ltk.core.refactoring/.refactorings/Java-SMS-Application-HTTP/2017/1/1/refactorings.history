@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename compilation unit &apos;Java_sms_httprequest.java&apos; to &apos;otp.java&apos;&#x0D;&#x0A;- Original project: &apos;Java-SMS-Application-HTTP&apos;&#x0D;&#x0A;- Original element: &apos;Java_sms_httprequest.java&apos;&#x0D;&#x0A;- Renamed element: &apos;otp.java&apos;" description="Rename compilation unit &apos;Java_sms_httprequest.java&apos;" flags="2" id="org.eclipse.jdt.ui.rename.compilationunit" input="/src&lt;{Java_sms_httprequest.java" name="otp.java" references="false" stamp="1483773768425" version="1.0"/>
+</session>

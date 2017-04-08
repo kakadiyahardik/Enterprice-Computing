@@ -9,7 +9,7 @@ notes for inventory
 	address :- varchar
 
 
-
+(registration with encripted password,login with filter authentication )
 
 password encription
 ......................................

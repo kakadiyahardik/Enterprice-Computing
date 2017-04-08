@@ -1,0 +1,8 @@
+package controller;
+
+import org.springframework.stereotype.Controller;
+
+@ItemController
+public class ItemController {
+
+}

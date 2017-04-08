@@ -1,0 +1,14 @@
+package Q5;
+
+public class Question {
+	private String q;
+	private String[] op1;
+	private char an;
+	
+	Question(String q,String[] op,char an)
+	{
+		this.q=q;
+		thi.op1=new String[op.length];
+	}
+
+}

@@ -14,9 +14,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dao.DAOException;
 import dao.InventoryDAO;
 import model.Category;
 import model.Inventory;
+import model.User;
 
 
 @WebServlet("/ItemController")
@@ -163,7 +165,7 @@ public class ItemController extends HttpServlet {
 		}
 		
 		
-		//for the user response
+		//for the user response and handle him
 		if(action.equals("register"))
 		{
 			String email=req.getParameter("email");
@@ -171,9 +173,41 @@ public class ItemController extends HttpServlet {
 			String name=req.getParameter("name");
 			String phone=req.getParameter("phone");
 			String add=req.getParameter("add");
-			System.out.println("yes");
-			//System.out.println(email+" "+pass+" "+name+" "+phone+" "+add);
-			System.out.println(encriptPass(pass));
+			
+			User user=new User();
+			user.setEmail(email);
+			user.setPassword(encriptPass(pass));
+			user.setName(name);
+			user.setPhone(Long.parseLong(phone));
+			user.setAdd(add);
+			
+			InventoryDAO in=new InventoryDAO();
+			try {
+				in.addUser(user);
+			} catch (DAOException e) {
+				
+				//e.printStackTrace();
+			}
+		}
+		else if(action.equals("userlogin"))
+		{
+			String email=req.getParameter("email");
+			String pass=req.getParameter("password");
+			
+			InventoryDAO in=new InventoryDAO();
+			User user=in.validateLogin(email, encriptPass(pass));
+			
+			if(user==null)
+				res.sendRedirect("user/login.jsp");
+			else
+			{
+				req.getSession().setAttribute("user", user);
+				req.getRequestDispatcher("/user/home.jsp").forward(req, res);
+			}
+		}
+		else if(action.equals("home"))
+		{
+			req.getRequestDispatcher("/user/home.jsp").forward(req, res);
 		}
 	}
 	
@@ -224,10 +258,10 @@ public class ItemController extends HttpServlet {
 		try {
 			controll(request,response);
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 	}
@@ -236,10 +270,10 @@ public class ItemController extends HttpServlet {
 		try {
 			controll(request, response);
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 	}

@@ -1,0 +1,405 @@
+package dao;
+
+import java.beans.Statement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import model.Category;
+import model.Inventory;
+
+
+public class InventoryDAO 
+{
+	
+	private final Connection con;
+	
+	public InventoryDAO()throws ClassNotFoundException,SQLException
+	{
+		con=DBConnection.getInstance().getConnection();
+	}
+	
+	
+	 public void InsertItem(Inventory items)throws DAOException, SQLException
+	 {
+		 try{
+		 PreparedStatement ps=con.prepareStatement("insert into item(icode,idescription,istock,min_stock,cost,category) values(DEFAULT,?,?,?,?,?)");
+		
+		 ps.setString(1, items.getDescription());
+		 ps.setInt(2, items.getStock());
+		 ps.setInt(3, items.getMinStock());
+		 ps.setDouble(4, items.getCost());
+		 ps.setInt(5, items.getCategory());
+		 
+		 ps.executeUpdate();
+		 }
+		 catch(Exception e){
+			 System.out.println("problem in insert");
+		 }
+	 }
+	 
+	 public Inventory getItem(int icode)
+	 {
+		 Inventory i=new Inventory();
+		 String sql="select * from item where icode=?";
+		 try {
+			PreparedStatement ps=con.prepareStatement(sql);
+			ps.setInt(1, icode);
+			
+			ResultSet rs=ps.executeQuery();
+			rs.next();
+			
+			i.setCode(rs.getInt(1));
+			i.setDescription(rs.getString(2));
+			i.setStock(rs.getInt(3));
+			i.setMinStock(rs.getInt(4));
+			i.setCost(rs.getDouble(5));
+			i.setCategory(rs.getInt(6));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 
+		 return i;
+	 }
+	  
+	 public ArrayList<Inventory> getItems(){
+		 
+		 ArrayList<Inventory> items=new ArrayList<>();
+		 Inventory i;
+		 try
+		 {
+			 String sql="select * from item join category on item.category=category.cateid";
+			 PreparedStatement ps=con.prepareStatement(sql);
+			 
+			 ResultSet rs=ps.executeQuery();
+			
+			 while(rs.next())
+			 {
+				 i=new Inventory();
+				 i.setCode(rs.getInt(1));
+				 i.setDescription(rs.getString(2));
+				 i.setStock(rs.getInt(3));
+				 i.setMinStock(rs.getInt(4));
+				 i.setCost(rs.getDouble(5));
+				 i.setCategory(rs.getInt(6));
+				 i.setCat_name(rs.getString(8));
+				
+				 items.add(i);
+			 }
+		 }
+		 catch(Exception e)
+		 {
+			 System.out.println("error from get" + e.getMessage());
+		 }
+		 
+		 return items;
+	 }
+	 
+	 public void deleteItem(int code)
+	 {
+		 String sql="delete from item where icode=?";
+		 try {
+			PreparedStatement ps=con.prepareStatement(sql);
+			
+			ps.setInt(1, code);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+	 }
+	 
+	 public ArrayList<Category> getCategory(){
+		 String sql="select * from category";
+		 ArrayList<Category> items=new ArrayList<>();
+		 try {
+			PreparedStatement ps=con.prepareStatement(sql);
+			Category i;
+			 ResultSet rs=ps.executeQuery();
+				
+			 while(rs.next())
+			 {
+				 i=new Category();
+				 i.setCateid(rs.getInt(1));
+				 i.setCatename(rs.getString(2));
+				 
+				 items.add(i);
+			 }
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 return items;
+	 }
+	 
+	 public void updateItem(Inventory items)throws SQLException
+	 {
+
+		 try
+		{
+			
+			String sql="update item set idescription=?,istock=?,min_stock=?,cost=?,category=? where icode=?";
+			PreparedStatement ps=con.prepareStatement(sql);
+			
+			 ps.setString(1, items.getDescription()); 
+			 ps.setInt(2, items.getStock());
+			 ps.setInt(3, items.getMinStock());
+			 ps.setDouble(4, items.getCost());
+			 ps.setInt(5, items.getCategory());
+			 ps.setInt(6, items.getCode());
+			 ps.executeUpdate();
+		 
+		}
+		catch(Exception e)
+		{
+			System.out.println("problem in update "+e.getMessage());
+		}
+	 }
+	 
+	 public ArrayList<Inventory> getUnderStock(){
+		 
+		 ArrayList<Inventory> items=new ArrayList<>();
+		 Inventory i;
+		 try
+		 {
+			 String sql="select * from item join category on item.category=category.cateid";
+			 PreparedStatement ps=con.prepareStatement(sql);
+			 
+			 ResultSet rs=ps.executeQuery();
+			
+			 while(rs.next())
+			 {
+				 if(rs.getInt(3) > rs.getInt(4))
+					 continue;
+				 i=new Inventory();
+				 i.setCode(rs.getInt(1));
+				 i.setDescription(rs.getString(2));
+				 i.setStock(rs.getInt(3));
+				 i.setMinStock(rs.getInt(4));
+				 i.setCost(rs.getDouble(5));
+				 i.setCategory(rs.getInt(6));
+				 i.setCat_name(rs.getString(8));
+				
+				 items.add(i);
+			 }
+		 }
+		 catch(Exception e)
+		 {
+			 System.out.println("error from get" + e.getMessage());
+		 }
+		 
+		 return items;
+	 }
+	 
+	 public ArrayList<Inventory> selectCatWise(int cat)
+	 {
+		 ArrayList<Inventory> items=new ArrayList<>();
+		 Inventory i;
+		 try
+		 {
+			 String sql="select * from item join category on item.category=category.cateid where category=?";
+			 PreparedStatement ps=con.prepareStatement(sql);
+			 ps.setInt(1, cat);
+			 ResultSet rs=ps.executeQuery();
+			
+			 while(rs.next())
+			 {
+				 i=new Inventory();
+				 i.setCode(rs.getInt(1));
+				 i.setDescription(rs.getString(2));
+				 i.setStock(rs.getInt(3));
+				 i.setMinStock(rs.getInt(4));
+				 i.setCost(rs.getDouble(5));
+				 i.setCategory(rs.getInt(6));
+				 i.setCat_name(rs.getString(8));
+				
+				 items.add(i);
+			 }
+		 }
+		 catch(Exception e)
+		 {
+			 System.out.println("error from get" + e.getMessage());
+		 }
+		 
+		 return items;
+	 }
+	 
+	 //from here there is the operation of the user only
+	 
+	/* public void InsertItems(InventoryItem[] items)throws ItemExists, SQLException
+	 {
+		 Connection con=getConnection();
+		 con.setAutoCommit(false);
+		 try
+		 {
+			 for(int i=0;i<items.length;i++)
+			 {
+				 InsertItem(items[i]);
+			 }
+			 con.commit();
+		 }
+		 catch(Exception e)
+		 {
+			 con.rollback();
+			 System.out.println(e.getMessage());
+		 }
+		 finally
+		 {
+			 con.setAutoCommit(true);
+		 }
+	 }
+	 
+	 public void updateItem(InventoryItem items)throws ItemNotFound, SQLException
+	 {
+		 Connection con=getConnection();
+		try{
+		 String sql="select *from indetail where item_code="+items.getCode();
+		 PreparedStatement ps=con.prepareStatement(sql);
+		 
+		 if(ps.executeQuery()==null)
+		 {
+			 throw new ItemNotFound();
+		 }
+		 else
+		 {
+			 sql="update indetail set qty_in_stock=?,min_stock=?,cost=?,des=? where item_code=?";
+			 ps=con.prepareStatement(sql);
+			 ps.setInt(1, items.getStock());
+			 ps.setInt(2, items.getMin());
+			 ps.setDouble(3, items.getCost());
+			 ps.setString(4, items.getItem_description());
+			 ps.setInt(5, items.getCode());
+			 
+			 ps.executeUpdate();
+		 }
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+	 }
+	 
+	 
+	 public void upDateItems(InventoryItem[] items)throws ItemNotFound, SQLException{
+	
+		 Connection con=getConnection();
+		 con.setAutoCommit(false);
+		 
+		 try
+		 {
+			 for(int i=0;i<items.length;i++)
+			 {
+				 updateItem(items[i]);
+			 }
+			 con.commit();
+		 }
+		 catch(Exception e)
+		 {
+			 con.rollback();
+			 System.out.println("loop fail");
+		 }
+		 finally
+		 {
+			 con.setAutoCommit(true);
+		 }
+	 }
+	 
+	 
+	 public InventoryItem getItem(int item_code)throws ItemNotFound {
+		 
+		 InventoryItem item=null;
+		 try
+		 {
+			 Connection con=getConnection();
+			 String sql="select * from indetail where item_code=?";
+			 PreparedStatement ps=con.prepareStatement(sql);
+			 ps.setInt(1, item_code);
+			 ResultSet rs=ps.executeQuery();
+			 
+			// System.out.println(rs.getInt(1));
+			 if(rs==null)
+			 {
+				 throw new ItemNotFound();
+			 }
+			 else
+			 {
+				 rs.next();
+				 
+			 	String des=rs.getString(5);
+				item=new InventoryItem(rs.getInt(1),des,rs.getInt(2),rs.getInt(3),rs.getDouble(4));
+				 
+			 }
+		 }
+		 catch(Exception e)
+		 {
+			 
+		 }
+		 return item; 
+	 }
+	 
+	 
+	
+	 public void setPageLength(int length) {
+		 this.page_length=length;
+	 }
+	 
+	 public void addStock(int item_code, int qty)throws ItemNotFound{
+		 
+		 try
+		 {
+			 Connection con=getConnection();
+			 String sql="update indetail set qty_in_stock=qty_in_stock+? where item_code=?";
+			 PreparedStatement ps=con.prepareStatement(sql);
+			 ps.setInt(1, qty);
+			 ps.setInt(2, item_code);
+			 
+			 ps.executeUpdate();
+		 }
+		 catch(Exception e)
+		 {
+			 System.out.println(e.getMessage()+"add stock");
+		 }
+	 }
+	 
+	 public void withdrawStock(int item_code, int qty)throws ItemNotFound, InSufficientStock{
+		 
+		 try
+		 {
+			 Connection con=getConnection();
+			 String sql="select * from indetail where item_code="+item_code;
+			 PreparedStatement ps;
+			 ps=con.prepareStatement(sql);
+			 ResultSet rs=ps.executeQuery();
+			 
+			 if(rs==null)
+			 {
+				 throw new ItemNotFound();
+			 }
+			 else
+			 {
+				 rs.next();
+				 int val=rs.getInt(2);
+				 int min=rs.getInt(3);
+				 
+				 if(val<min)
+					 throw new InsufficientResourcesException();
+			}
+			 
+			 sql="update indetail set qty_in_stock=qty_in_stock-? where item_code=?";
+			 ps=con.prepareStatement(sql);
+			 ps.setInt(1, qty);
+			 ps.setInt(2, item_code);
+			 
+			 ps.executeUpdate();
+		 }
+		 catch(Exception e)
+		 {
+			 System.out.println(e.getMessage()+"withdraw stock");
+		 }
+	 }*/
+}

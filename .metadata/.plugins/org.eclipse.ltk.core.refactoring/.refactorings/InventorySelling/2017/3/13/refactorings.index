@@ -1,0 +1,26 @@
+1490868388788	Move compilation unit
+1490868549904	Move compilation unit
+1490868570526	Move compilation unit
+1490868578112	Move compilation unit
+1490868594386	Rename package 'dao'
+1490868620709	Rename package 'inventory'
+1490870191018	Delete element
+1490871389007	Move compilation unit
+1490871441015	Delete element
+1490871443963	Delete element
+1490871446435	Delete element
+1490873007342	Encapsulate field 'category'
+1490874133810	Delete element
+1490875142027	Delete element
+1490884310461	Move 'catalogue_view.jsp' to 'WebContent'
+1490943401535	Delete element
+1490950380035	Rename compilation unit 'Action.java'
+1490951008894	Delete element
+1490951123090	Delete element
+1490951127104	Delete element
+1490951653169	Delete element
+1490955015070	Delete element
+1490956266490	Encapsulate field 'cat_name'
+1490962749521	Encapsulate field 'cateid'
+1490962754655	Encapsulate field 'catename'
+1490983914960	Move 'common' to 'WebContent'

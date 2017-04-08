@@ -1,0 +1,61 @@
+package Q5;
+
+import java.util.HashMap;
+
+public class Quiz {
+
+	private String q;
+	private String[] op1=new String[4];
+	private char an;
+	
+	HashMap<Integer,Question> data=new HashMap<Integer,Question>();
+	static int cnt=1;
+	
+	Quiz()
+	{
+		q="What is the size of boolean variable?";
+		op1[0]="8 bit";
+		op1[1]="16 bit";
+		op1[1]="32 bit";
+		op1[1]="None of the above";
+		an='b';
+		Question t=new Question(q,op1,an);
+		this.data.put(cnt, t);
+		cnt++;
+		
+		q="What is the default value of short variable?";
+		op1[0]="0.0";
+		op1[1]="0";
+		op1[1]="Null";
+		op1[1]="Undefine";
+		an='a';
+		Question t2=new Question(q,op1,an);
+		this.data.put(cnt, t2);
+		cnt++;
+		
+		q="What is the default value of Object variable?";
+		op1[0]="undefine";
+		op1[1]="0";
+		op1[1]="Null";
+		op1[1]="Not define";
+		an='b';
+		Question t=new Question(q,op1,an);
+		this.data.put(cnt, t);
+		cnt++;
+		
+		q="What is the size of boolean variable?";
+		op1[0]="8 bit";
+		op1[1]="16 bit";
+		op1[1]="32 bit";
+		op1[1]="None of the above";
+		an='b';
+		Question t=new Question(q,op1,an);
+		this.data.put(cnt, t);
+		cnt++;
+	}
+	
+	void display()
+	{
+		this.data.get(1);
+	}
+}
