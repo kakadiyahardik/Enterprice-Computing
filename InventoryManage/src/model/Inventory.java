@@ -21,7 +21,7 @@ public class Inventory
 	}
 		
 	public Inventory() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public void setCode(int cd){

@@ -201,6 +201,7 @@ public class ItemController extends HttpServlet {
 				res.sendRedirect("user/login.jsp");
 			else
 			{
+				setStock(req, res);
 				req.getSession().setAttribute("user", user);
 				req.getRequestDispatcher("/user/home.jsp").forward(req, res);
 			}

@@ -1,5 +1,9 @@
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1" import="model.User"%>
+    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -26,5 +30,20 @@
     </ul>
   </div>
 </nav>
+<div class="container">
+        <h3>Inventory</h3>
+	<table class="gridtable" border="1">
+	<tr><th>Description</th><th>Stock</th><th>Cost</th><th>Category</th><th>Action</th></tr>
+		<c:forEach items="${stock}" var="item">
+	    <tr>
+	    	<td><c:out value="${item.description }"/> </td>
+			<td><c:out value="${item.stock }"/> </td>
+			<td><c:out value="${item.cost }"/> </td>
+			<td><c:out value="${item.cat_name }"/> </td>
+			
+		</tr>
+	</c:forEach>
+	</table>
+	</div>
 </body>
 </html>
