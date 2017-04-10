@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import dao.DAOException;
 import dao.InventoryDAO;
+import model.CartItem;
 import model.Category;
 import model.Inventory;
 import model.User;
@@ -203,12 +204,38 @@ public class ItemController extends HttpServlet {
 			{
 				setStock(req, res);
 				req.getSession().setAttribute("user", user);
+				req.getSession().setAttribute("cart",new ArrayList<CartItem>());
 				req.getRequestDispatcher("/user/home.jsp").forward(req, res);
 			}
 		}
 		else if(action.equals("home"))
 		{
+			setStock(req, res);
 			req.getRequestDispatcher("/user/home.jsp").forward(req, res);
+		}
+		else if(action.equals("gotocart")){
+			req.getRequestDispatcher("/user/cart.jsp").forward(req, res);
+		}
+		else if(action.equals("addtocart")){
+			
+			ArrayList<CartItem> al=(ArrayList<CartItem>) req.getSession().getAttribute("cart");
+			
+			int qty=Integer.parseInt(req.getParameter("qty"));
+			int item_code=Integer.parseInt(req.getParameter("icode"));
+			Inventory in=new InventoryDAO().getItem(item_code);
+			CartItem cart=new CartItem();
+			
+			cart.setItem_code(in.getCode());
+			cart.setDes(in.getDescription());
+			cart.setRate(in.getCost());
+			cart.setQty(qty);
+			setStock(req, res);
+			
+			al.add(cart);
+			req.getSession().setAttribute("cart", al);
+			
+			req.getRequestDispatcher("/user/home.jsp").forward(req, res);
+			System.out.println("add to cart");
 		}
 	}
 	
