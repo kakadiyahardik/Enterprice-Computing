@@ -204,7 +204,7 @@ public class ItemController extends HttpServlet {
 			{
 				setStock(req, res);
 				req.getSession().setAttribute("user", user);
-				req.getSession().setAttribute("cart",new ArrayList<CartItem>());
+				req.getSession().setAttribute("cart",in.getFromCart(user.getUser_id()));
 				req.getRequestDispatcher("/user/home.jsp").forward(req, res);
 			}
 		}
@@ -235,7 +235,16 @@ public class ItemController extends HttpServlet {
 			req.getSession().setAttribute("cart", al);
 			
 			req.getRequestDispatcher("/user/home.jsp").forward(req, res);
-			System.out.println("add to cart");
+			
+		}
+		else if(action.equals("saveToCart")){
+			System.out.println("yes got it save to cart");
+			User user=(User) req.getSession().getAttribute("user");
+			int user_id=user.getUser_id();
+			InventoryDAO in=new InventoryDAO();
+			
+			in.addToCarts(req.getSession().getAttribute("cart"), user_id);
+			req.getRequestDispatcher("/user/cart.jsp").forward(req, res);
 		}
 	}
 	

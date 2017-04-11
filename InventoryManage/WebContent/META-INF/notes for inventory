@@ -9,6 +9,15 @@ notes for inventory
 	address :- varchar
 
 
+2) Cart
+    cart_id :- serial
+    item_code :- integer
+    des  :-  text
+    qty  :-  integer
+    rate :- doube
+    user_id  :- integer
+
+
 (registration with encripted password,login with filter authentication )
 
 password encription

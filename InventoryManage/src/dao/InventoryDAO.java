@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import model.CartItem;
 import model.Category;
 import model.Inventory;
 import model.User;
@@ -265,6 +266,7 @@ public class InventoryDAO
 			 
 			 if(rs.next())
 			 {
+				user.setUser_id(rs.getInt(1));
 				user.setEmail(rs.getString(2));
 				user.setName(rs.getString(4));
 			 }
@@ -279,6 +281,71 @@ public class InventoryDAO
 		}
 		return user;	
 	}
+	
+	 public void addToCart(CartItem cart,int uid){
+		 
+		 try{
+			 PreparedStatement ps=con.prepareStatement("insert into cart(cart_id,item_code,des,qty,rate,user_id) values(DEFAULT,?,?,?,?,?)");
+			
+			 ps.setInt(1, cart.getItem_code());
+			 ps.setString(2, cart.getDes());
+			 ps.setInt(3, cart.getQty());
+			 ps.setDouble(4, cart.getRate());
+			 ps.setInt(5, uid);
+			 
+			 ps.executeUpdate();
+			 }
+			 catch(Exception e){
+				 System.out.println("problem in insert");
+			 }
+	 }
 	 
+	 public void addToCarts(Object itm,int uid){
+		 
+		 ArrayList<CartItem> cartItem=(ArrayList<CartItem>)itm;
+		 try {
+			PreparedStatement ps=con.prepareStatement("delete from cart where user_id=?");
+			ps.setInt(1,uid);
+			ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			
+			System.out.println(e+ " addToCarts");
+		}
+		 for(CartItem cart:cartItem){
+			 addToCart(cart,uid);
+		 }
+	 }
+	 
+	 public ArrayList<CartItem> getFromCart(int user_id){
+		 
+		 ArrayList<CartItem> items=new ArrayList<>();
+		 CartItem i;
+		 try
+		 {
+			 String sql="select * from cart where user_id=?";
+			 PreparedStatement ps=con.prepareStatement(sql);
+			 ps.setInt(1, user_id);
+			 
+			 ResultSet rs=ps.executeQuery();
+			
+			 while(rs.next())
+			 {
+				 i=new CartItem();
+				 i.setItem_code(rs.getInt(2));
+				 i.setDes(rs.getString(3));
+				 i.setQty(rs.getInt(4));
+				 i.setRate(rs.getDouble(5));
+				 
+				 items.add(i);
+			 }
+		 }
+		 catch(Exception e)
+		 {
+			 System.out.println("error from get" + e.getMessage());
+		 }
+		 
+		 return items;
+	 }
 	
 }

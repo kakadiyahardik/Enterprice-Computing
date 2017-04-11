@@ -48,6 +48,7 @@
 	</c:forEach>
 	</table>
 	</form>
+	<a href="<%= application.getContextPath() %>/ItemController?action=saveToCart"><button class="btn btn-success" > Save Cart </button></a>
 	</div>
 </body>
 </html>
