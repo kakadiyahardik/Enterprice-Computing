@@ -332,6 +332,7 @@ public class InventoryDAO
 			 while(rs.next())
 			 {
 				 i=new CartItem();
+				 i.setCartid(rs.getInt(1));
 				 i.setItem_code(rs.getInt(2));
 				 i.setDes(rs.getString(3));
 				 i.setQty(rs.getInt(4));
@@ -346,6 +347,20 @@ public class InventoryDAO
 		 }
 		 
 		 return items;
+	 }
+	 
+	 public void deleteFromCart(int id){
+		 
+		 String sql="delete from cart where cart_id=?";
+		 
+		 try {
+			PreparedStatement ps=con.prepareStatement(sql);
+			ps.setInt(1, id);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			
+			System.out.println(e+" problem in delete from cart");
+		}
 	 }
 	
 }

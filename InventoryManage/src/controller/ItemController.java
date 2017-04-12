@@ -238,12 +238,22 @@ public class ItemController extends HttpServlet {
 			
 		}
 		else if(action.equals("saveToCart")){
-			System.out.println("yes got it save to cart");
+			
 			User user=(User) req.getSession().getAttribute("user");
 			int user_id=user.getUser_id();
 			InventoryDAO in=new InventoryDAO();
 			
 			in.addToCarts(req.getSession().getAttribute("cart"), user_id);
+			req.getRequestDispatcher("/user/cart.jsp").forward(req, res);
+		}
+		else if(action.equals("deletecart")){
+			
+			int icode=Integer.parseInt(req.getParameter("icode"));
+			
+			InventoryDAO in=new InventoryDAO();
+			in.deleteFromCart(icode);
+			User user=(User)req.getSession().getAttribute("user");
+			req.getSession().setAttribute("cart",in.getFromCart(user.getUser_id()));
 			req.getRequestDispatcher("/user/cart.jsp").forward(req, res);
 		}
 	}

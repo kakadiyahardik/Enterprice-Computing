@@ -1,10 +1,19 @@
 package model;
 
 public class CartItem {
+	int cartid;
+	
 	int item_code;
 	String des;
 	int qty;
 	double rate;
+	
+	public int getCartid() {
+		return cartid;
+	}
+	public void setCartid(int cartid) {
+		this.cartid = cartid;
+	}
 	public int getItem_code() {
 		return item_code;
 	}

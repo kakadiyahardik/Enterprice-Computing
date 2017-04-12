@@ -33,21 +33,23 @@
 </nav>
 <div class="container">
         <h3>Inventory</h3>
-        <form action="<%= application.getContextPath() %>/ItemController" method="get">
-        <input type="hidden" name="action" value="addtocart"/>
+        
+        
 	<table class="table" border="1">
-	<tr><th>Description</th><th>Qty</th><th>Rate</th></tr>
+	<tr><th>Description</th><th>Qty</th><th>Rate</th><th>Action</th></tr>
 		<c:forEach items="${cart}" var="item">
 	    <tr>
 	    	
 			<td><c:out value="${item.des }"/> </td>
 			<td><c:out value="${item.qty }"/> </td>
 			<td><c:out value="${item.rate }"/> </td>
-			
+			<td><a href="<%= application.getContextPath() %>/ItemController?action=editcart&icode=${item.cartid}"><button class="btn btn-success" > Edit </button></a>
+            	<a href="<%= application.getContextPath() %>/ItemController?action=deletecart&icode=${item.cartid}"><button class="btn btn-danger" > Remove </button></a>
+            </td>
 		</tr>
 	</c:forEach>
 	</table>
-	</form>
+	
 	<a href="<%= application.getContextPath() %>/ItemController?action=saveToCart"><button class="btn btn-success" > Save Cart </button></a>
 	</div>
 </body>
