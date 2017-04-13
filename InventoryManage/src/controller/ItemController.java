@@ -5,6 +5,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Properties;
 
 import javax.servlet.RequestDispatcher;
@@ -220,20 +221,44 @@ public class ItemController extends HttpServlet {
 			
 			ArrayList<CartItem> al=(ArrayList<CartItem>) req.getSession().getAttribute("cart");
 			
-			int qty=Integer.parseInt(req.getParameter("qty"));
+			String sqty=req.getParameter("qty");
+			int qty;
+			
+			//set ddefault qty
+			if(sqty=="" || sqty==null){
+				qty=1;
+			}
+			else{
+				qty=Integer.parseInt(sqty);
+			}
+			
 			int item_code=Integer.parseInt(req.getParameter("icode"));
-			Inventory in=new InventoryDAO().getItem(item_code);
-			CartItem cart=new CartItem();
 			
-			cart.setItem_code(in.getCode());
-			cart.setDes(in.getDescription());
-			cart.setRate(in.getCost());
-			cart.setQty(qty);
-			setStock(req, res);
+			Iterator i=al.iterator();
+			boolean flag=true;
+			while(i.hasNext()){
+				CartItem cartitem=(CartItem)i.next();
+				
+				if(cartitem.getItem_code()==item_code){
+					flag=false;
+					cartitem.setQty(cartitem.getQty()+qty);
+				}
+			}
 			
-			al.add(cart);
+			if(flag){
+				Inventory in=new InventoryDAO().getItem(item_code);
+				CartItem cart=new CartItem();
+				
+				cart.setItem_code(in.getCode());
+				cart.setDes(in.getDescription());
+				cart.setRate(in.getCost());
+				cart.setQty(qty);
+								
+				al.add(cart);
+			}
+			
 			req.getSession().setAttribute("cart", al);
-			
+			setStock(req, res);
 			req.getRequestDispatcher("/user/home.jsp").forward(req, res);
 			
 		}
@@ -250,10 +275,56 @@ public class ItemController extends HttpServlet {
 			
 			int icode=Integer.parseInt(req.getParameter("icode"));
 			
-			InventoryDAO in=new InventoryDAO();
-			in.deleteFromCart(icode);
-			User user=(User)req.getSession().getAttribute("user");
-			req.getSession().setAttribute("cart",in.getFromCart(user.getUser_id()));
+			ArrayList<CartItem> al=(ArrayList<CartItem>)req.getSession().getAttribute("cart");
+			Iterator i=al.iterator();
+			
+			while(i.hasNext()){
+				CartItem cart=(CartItem) i.next();
+				
+				if(cart.getItem_code()==icode){
+					i.remove();
+				}
+			}
+			
+			req.getSession().setAttribute("cart",al);
+			req.getRequestDispatcher("/user/cart.jsp").forward(req, res);
+		}
+		else if(action.equals("editcart")){
+			int code=Integer.parseInt(req.getParameter("icode"));
+			
+			ArrayList<CartItem> al=(ArrayList<CartItem>)req.getSession().getAttribute("cart");
+			Iterator i=al.iterator();
+			CartItem cart=new CartItem();
+			
+			while(i.hasNext()){
+				
+				cart=(CartItem) i.next();
+				
+				if(cart.getItem_code()==code){
+					break;
+				}
+			}
+			
+			req.setAttribute("edititem", cart);
+			req.getRequestDispatcher("/user/edit.jsp").forward(req, res);
+		}
+		else if(action.equals("updatecart")){
+			int code=Integer.parseInt(req.getParameter("icode"));
+			
+			int qty=Integer.parseInt(req.getParameter("qty"));
+			
+			ArrayList<CartItem> al=(ArrayList<CartItem>)req.getSession().getAttribute("cart");
+			Iterator i=al.iterator();
+			
+			while(i.hasNext()){
+				CartItem cart=(CartItem) i.next();
+				
+				if(cart.getItem_code()==code){
+					cart.setQty(qty);
+				}
+			}
+			
+			req.getSession().setAttribute("cart",al);
 			req.getRequestDispatcher("/user/cart.jsp").forward(req, res);
 		}
 	}
