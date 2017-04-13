@@ -27,6 +27,7 @@
     <ul class="nav navbar-nav">
       <li class="active"><a href="<%= application.getContextPath() %>/ItemController?action=home">Home</a></li>
       <li ><a href="<%= application.getContextPath() %>/ItemController?action=gotocart">Cart</a></li>
+      <li ><a href="<%= application.getContextPath() %>/ItemController?action=movetoorder">Order</a></li>
       
     </ul>
   </div>

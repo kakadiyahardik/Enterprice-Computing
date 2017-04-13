@@ -20,6 +20,7 @@ import dao.InventoryDAO;
 import model.CartItem;
 import model.Category;
 import model.Inventory;
+import model.Order;
 import model.User;
 
 
@@ -327,6 +328,19 @@ public class ItemController extends HttpServlet {
 			req.getSession().setAttribute("cart",al);
 			req.getRequestDispatcher("/user/cart.jsp").forward(req, res);
 		}
+		else if(action.equals("placeOrder")){
+			
+			ArrayList<CartItem> cart=(ArrayList<CartItem>) req.getSession().getAttribute("cart");
+			InventoryDAO in=new InventoryDAO();
+			User user=(User) req.getSession().getAttribute("user");
+			in.placeOrders(cart, user.getUser_id());
+			
+			req.getSession().setAttribute("cart", new ArrayList<CartItem>());
+			movetoOrderPage(req, res);
+		}
+		else if(action.equals("movetoorder")){
+			movetoOrderPage(req, res);
+		}
 	}
 	
 	//this method is for encript password
@@ -365,12 +379,35 @@ public class ItemController extends HttpServlet {
 		InventoryDAO in=new InventoryDAO();
 		ArrayList<Inventory> items = in.getItems();
         req.setAttribute("stock", items);
-       /* for(Category c:in.getCategory()){
-        	System.out.println(c.getCateid()+" "+c.getCatename());
-        }*/
+       
         
-       // ArrayList<Category> c=in.getCategory();
-       // req.setAttribute("category",c);
+	}
+	
+	public void movetoOrderPage(HttpServletRequest req, HttpServletResponse res){
+		InventoryDAO in;
+		try {
+			in = new InventoryDAO();
+			User user=(User) req.getSession().getAttribute("user");
+			
+			ArrayList<Order> order=in.getOrder(user.getUser_id());
+			req.setAttribute("order", order);
+			
+		} catch (ClassNotFoundException e) {
+			
+			e.printStackTrace();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		try {
+			req.getRequestDispatcher("user/order.jsp").forward(req, res);
+		} catch (ServletException e) {
+			
+			e.printStackTrace();
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
 	}
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {

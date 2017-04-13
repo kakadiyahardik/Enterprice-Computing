@@ -2,6 +2,7 @@ package dao;
 
 import java.beans.Statement;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,6 +13,7 @@ import java.util.Arrays;
 import model.CartItem;
 import model.Category;
 import model.Inventory;
+import model.Order;
 import model.User;
 
 
@@ -351,7 +353,7 @@ public class InventoryDAO
 	 
 	 public void deleteFromCart(int id){
 		 
-		 String sql="delete from cart where cart_id=?";
+		 String sql="delete from cart where user_id=?";
 		 
 		 try {
 			PreparedStatement ps=con.prepareStatement(sql);
@@ -361,6 +363,65 @@ public class InventoryDAO
 			
 			System.out.println(e+" problem in delete from cart");
 		}
+	 }
+	 
+	 public void placeOrders(ArrayList<CartItem> cart,int uid){
+		 
+		 deleteFromCart(uid);
+		 for(CartItem c:cart){
+			 placeOrder(c, uid);
+		 }
+		 
+	 }
+	 
+	 public void placeOrder(CartItem cart,int uid){
+		 
+		 try{
+			 PreparedStatement ps=con.prepareStatement("insert into public.order(order_id,name,qty,rate,amount,user_id,date) values(DEFAULT,?,?,?,?,?,?)");
+			
+			 ps.setString(1, cart.getDes());
+			 ps.setInt(2, cart.getQty());
+			 ps.setDouble(3, cart.getRate());
+			 ps.setDouble(4, cart.getQty()*cart.getRate());
+			 ps.setInt(5, uid);
+			 ps.setDate(6, new Date(System.currentTimeMillis()));
+			 
+			 ps.executeUpdate();
+			 }
+			 catch(Exception e){
+				 System.out.println(e+" problem in place order");
+			 }
+	 }
+	 
+	 public ArrayList<Order> getOrder(int uid){
+		 
+		 ArrayList<Order> al=new ArrayList<>();
+		 
+		 try {
+			PreparedStatement ps=con.prepareStatement("select * from public.order where user_id=?");
+			ps.setInt(1, uid);
+			
+			ResultSet rs=ps.executeQuery();
+			
+			
+			while(rs.next()){
+				Order order=new Order();
+				
+				order.setOrder_id(rs.getInt(1));
+				order.setpName(rs.getString(2));
+				order.setQty(rs.getInt(3));
+				order.setRate(rs.getDouble(4));
+				order.setAmount(rs.getDouble(5));
+				order.setDate(rs.getDate(7));
+				
+				al.add(order);
+			}
+		 
+		 } catch (SQLException e) {
+			
+			System.out.println(e+" problem in getOrder");
+		}
+		 return al;
 	 }
 	
 }

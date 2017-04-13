@@ -9,7 +9,7 @@
 <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="main.css">
-        <title>Cart</title>
+        <title>Order</title>
           <meta charset="utf-8">
 		  <meta name="viewport" content="width=device-width, initial-scale=1">
 		  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -26,33 +26,30 @@
     </div>
     <ul class="nav navbar-nav">
       <li ><a href="<%= application.getContextPath() %>/ItemController?action=home">Home</a></li>
-      <li class="active"><a href="<%= application.getContextPath() %>/ItemController?action=gotocart">Cart</a></li>
-      <li ><a href="<%= application.getContextPath() %>/ItemController?action=movetoorder">Order</a></li>
+      <li ><a href="<%= application.getContextPath() %>/ItemController?action=gotocart">Cart</a></li>
+      <li class="active"><a href="<%= application.getContextPath() %>/ItemController?action=movetoorder">Order</a></li>
       
     </ul>
   </div>
 </nav>
 <div class="container">
-        <h3>Inventory</h3>
-        
+        <h3>Order</h3>
         
 	<table class="table" border="1">
-	<tr><th>Description</th><th>Qty</th><th>Rate</th><th>Action</th></tr>
-		<c:forEach items="${cart}" var="item">
+	<tr><th>ID#<th>Description</th><th>Qty</th><th>Rate</th><th>Amount</th><th>Date</th></tr>
+		<c:forEach items="${order}" var="item">
 	    <tr>
-	    	
-			<td><c:out value="${item.des }"/> </td>
+	    	<td><c:out value="${item.order_id }"/> </td>
+	    	<td><c:out value="${item.pName }"/> </td>
 			<td><c:out value="${item.qty }"/> </td>
 			<td><c:out value="${item.rate }"/> </td>
-			<td><a href="<%= application.getContextPath() %>/ItemController?action=editcart&icode=${item.item_code}"><button class="btn btn-success" > Edit </button></a>
-            	<a href="<%= application.getContextPath() %>/ItemController?action=deletecart&icode=${item.item_code}"><button class="btn btn-danger" > Remove </button></a>
-            </td>
+			<td><c:out value="${item.amount }"/> </td>
+			<td><c:out value="${item.date }"/> </td>
+			
 		</tr>
 	</c:forEach>
 	</table>
 	
-	<a href="<%= application.getContextPath() %>/ItemController?action=placeOrder"><button class="btn btn-success" > Place order </button></a>
-	<a href="<%= application.getContextPath() %>/ItemController?action=saveToCart"><button class="btn btn-success" > Save Cart </button></a>
 	</div>
 </body>
 </html>

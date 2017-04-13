@@ -17,6 +17,15 @@ notes for inventory
     rate :- doube
     user_id  :- integer
 
+3) order
+    order_id   serial
+    name    produc name
+    qty
+    rate    double
+    amount  double
+    user_id
+    date    date
+
 
 (registration with encripted password,login with filter authentication )
 
