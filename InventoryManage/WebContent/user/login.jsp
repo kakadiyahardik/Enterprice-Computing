@@ -26,7 +26,7 @@
 	               	</div>
 	            </div> 
 				<div class="main-login main-center">
-					<form class="form-horizontal" method="post" action="../ItemController">
+					<form class="form-horizontal" method="post" action="<%=application.getContextPath() %>/ItemController">
 						
 						<div class="form-group">
 							<label for="name" class="cols-sm-2 control-label">Email</label>

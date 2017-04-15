@@ -21,7 +21,7 @@ Inventory in=(Inventory)request.getAttribute("editdetail");
 %>
 
 	<form action="ItemController" method="post">
-    <table border="1">
+    <table class="table" border="1">
     	<tr><td>Itemcode</td><td><input type="text" name ="icode" value="<%=in.getCode() %>" readonly="readonly"/></td></tr>
     	<tr><td>description</td><td><input type="text" name ="des"  value="<%=in.getDescription() %>" /></td></tr>
         <tr><td>Stock</td><td><input type="text" name="stock" value="<%=in.getStock() %>"/></td></tr>
@@ -41,7 +41,7 @@ Inventory in=(Inventory)request.getAttribute("editdetail");
                
         </select></td></tr>
       
-        <tr><td><input type="submit" name="update" value="update" /></td></tr>
+        <tr><td colspan="2"><input type="submit" name="update" class="btn btn-success" value="update" /></td></tr>
         <input type="hidden" name="action" value="update" />
     </table>
     </form>

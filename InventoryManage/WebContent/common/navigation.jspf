@@ -10,5 +10,8 @@
       <li><a href="categorywise.jsp">categorywise</a></li>
       <li><a href="<%= application.getContextPath() %>/ItemController?action=godeletepage">Delete multiple</a></li>
     </ul>
+    <div align="right">
+    <ul ><li><a href="<%= application.getContextPath() %>/ItemController?action=home">Coustomer</a></li></ul>
+    </div>
   </div>
 </nav>

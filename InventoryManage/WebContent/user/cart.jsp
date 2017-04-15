@@ -30,6 +30,9 @@
       <li ><a href="<%= application.getContextPath() %>/ItemController?action=movetoorder">Order</a></li>
       
     </ul>
+    <div align="right">
+    <ul ><li><a href="<%= application.getContextPath() %>/ItemController?action=viewitem">Admin</a></li></ul>
+    </div>
   </div>
 </nav>
 <div class="container">
@@ -37,13 +40,14 @@
         
         
 	<table class="table" border="1">
-	<tr><th>Description</th><th>Qty</th><th>Rate</th><th>Action</th></tr>
+	<tr><th>Description</th><th>Qty</th><th>Rate</th><th>Amount</th><th>Action</th></tr>
 		<c:forEach items="${cart}" var="item">
 	    <tr>
 	    	
 			<td><c:out value="${item.des }"/> </td>
 			<td><c:out value="${item.qty }"/> </td>
 			<td><c:out value="${item.rate }"/> </td>
+			<td><c:out value="${item.rate * item.qty}"/> </td>
 			<td><a href="<%= application.getContextPath() %>/ItemController?action=editcart&icode=${item.item_code}"><button class="btn btn-success" > Edit </button></a>
             	<a href="<%= application.getContextPath() %>/ItemController?action=deletecart&icode=${item.item_code}"><button class="btn btn-danger" > Remove </button></a>
             </td>

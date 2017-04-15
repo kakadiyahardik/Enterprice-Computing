@@ -341,6 +341,13 @@ public class ItemController extends HttpServlet {
 		else if(action.equals("movetoorder")){
 			movetoOrderPage(req, res);
 		}
+		else if(action.equals("catwiseuser")){
+			int cat=Integer.parseInt(req.getParameter("cat"));
+			InventoryDAO in=new InventoryDAO();
+			ArrayList<Inventory> items = in.selectCatWise(cat);
+	        req.setAttribute("stock", items);
+	        req.getRequestDispatcher("user/home.jsp").forward(req, res);
+		}
 	}
 	
 	//this method is for encript password

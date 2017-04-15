@@ -21,4 +21,10 @@
         <filter-name>Authenticator</filter-name>
         <servlet-name>controller.ItemController</servlet-name>
     </filter-mapping>
+    
+    <session-config>
+        <session-timeout>
+            25
+        </session-timeout>
+    </session-config>
 </web-app>

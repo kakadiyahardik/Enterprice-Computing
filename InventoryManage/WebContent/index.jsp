@@ -6,10 +6,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
 </head>
-<body>hiiiiiiii</body>
+<body></body>
 <% 
         //out.println( request.getServletContext().getRealPath(".") );
 	response.sendRedirect("user/login.jsp");
-       // response.sendRedirect("/Lab09/ItemController?action=viewitem"); 
+       // response.sendRedirect("ItemController?action=viewitem"); 
     %>
 </html>

@@ -1,6 +1,6 @@
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1" import="model.User"%>
+    pageEncoding="ISO-8859-1" import="model.User" import="java.util.ArrayList, model.*,dao.*"%>
     
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
@@ -28,12 +28,36 @@
       <li class="active"><a href="<%= application.getContextPath() %>/ItemController?action=home">Home</a></li>
       <li ><a href="<%= application.getContextPath() %>/ItemController?action=gotocart">Cart</a></li>
       <li ><a href="<%= application.getContextPath() %>/ItemController?action=movetoorder">Order</a></li>
-      
+     
     </ul>
+    <div align="right">
+    <ul ><li><a href="<%= application.getContextPath() %>/ItemController?action=viewitem">Admin</a></li></ul>
+    </div>
   </div>
 </nav>
 <div class="container">
         <h3>Inventory</h3>
+      <form action="ItemController" method="post">
+        	Select Category:
+        	<select value="select" name="cat">
+        <%
+        InventoryDAO in=new InventoryDAO();
+        ArrayList<Category> items =in.getCategory();
+        	if(items==null){
+        		
+        	}
+        for(Category it : items){
+        	%>
+        	<option value="<%=it.getCateid()%>" name="cat"> <%=it.getCatename() %></option>
+        	<%
+        }
+        
+        %>
+             
+        </select>
+         <input type="hidden" name="action" value="catwiseuser"/> 
+         <input type="submit" class="btn btn-success" value="display" /> 
+        </form>
         
 	<table class="table" border="1">
 	<tr><th>Description</th><th>Stock</th><th>Cost</th><th>Category</th><th>Qty</th><th>Action</th></tr>
@@ -47,7 +71,7 @@
 			<form action="<%= application.getContextPath() %>/ItemController" method="get">
 	        	<input type="hidden" name="action" value="addtocart"/>
 				<input type="hidden" name="icode" value="${item.code}"/>
-				<td><input type="text" name="qty"/></td>
+				<td><input type="text" name="qty" value="1"/></td>
 				
 				<td>
 				<input type="submit" class="btn btn-success" value="Add to Cart "/>

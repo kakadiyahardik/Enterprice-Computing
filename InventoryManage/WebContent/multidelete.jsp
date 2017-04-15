@@ -18,7 +18,7 @@
         <h3>Multi Delete</h3>
         
         <form action="ItemController" method="post">
-        <table class="gridtable" border="1">
+        <table class="table" border="1">
             <tr><th>Code</th><th>Description</th><th>Stock</th><th>Min_Stock</th><th>Cost</th><th>Category</th><th>Select</th></tr>
         <%
             ArrayList<Inventory> stock = (ArrayList<Inventory>) request.getAttribute("stock");
@@ -45,7 +45,7 @@
           	}
         %>
         </table>
-        <input type="submit" value="Delete"/>
+        <input type="submit" class="btn btn-danger" value="Delete"/>
         <input type="hidden" name="action" value="delmulti"/>
         </form>
        </div>

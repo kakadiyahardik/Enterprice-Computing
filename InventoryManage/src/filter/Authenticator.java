@@ -10,6 +10,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import model.User;
 
@@ -21,6 +22,7 @@ public class Authenticator implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
     	
     	HttpServletRequest req = (HttpServletRequest) request;
+    	HttpServletResponse res=(HttpServletResponse) response;
     	String action=req.getParameter("action");
     	
     	User user=(User)req.getSession().getAttribute("user");
@@ -31,10 +33,13 @@ public class Authenticator implements Filter {
     	if ((user==null || user.equals(""))&&(!action.equals("register") && !action.equals("userlogin"))) 
         {
     		req.getSession().setAttribute("user", null); 
-    		System.out.println("login faild");
+    		 
+    		res.sendRedirect("user/login.jsp");
+             
+    		//System.out.println("login faild");
         }
-        
-    	chain.doFilter(request, response);
+    	else{
+    	chain.doFilter(request, response);}
 	}
 
 	

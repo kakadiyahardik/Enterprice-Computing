@@ -30,6 +30,9 @@
       <li class="active"><a href="<%= application.getContextPath() %>/ItemController?action=movetoorder">Order</a></li>
       
     </ul>
+    <div align="right">
+    <ul ><li><a href="<%= application.getContextPath() %>/ItemController?action=viewitem">Admin</a></li></ul>
+    </div>
   </div>
 </nav>
 <div class="container">

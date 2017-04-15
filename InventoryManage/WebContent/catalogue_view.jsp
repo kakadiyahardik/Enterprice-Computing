@@ -18,7 +18,7 @@
         <h3>Inventory</h3>
         
         <table class="table" border="1">
-            <tr><th>Code</th><th>Description</th><th>Stock</th><th>Min_Stock</th><th>Cost</th><th>Category</th><th>Action</th></tr>
+            <tr><th>Code</th><th>Description</th><th>Stock</th><th>Min_Stock</th><th>Cost</th><th>Category</th><th colspan="2">Action</th></tr>
         <%
             ArrayList<Inventory> stock = (ArrayList<Inventory>) request.getAttribute("stock");
             if (stock == null )
@@ -39,8 +39,8 @@
                 <td><%= b.getCost() %></td>
                 <td><%= b.getCat_name() %></td>
                 
-                <td><a href="<%= application.getContextPath() %>/ItemController?action=edititem&icode=<%= icode %>">Edit</a></td>
-                <td><a href="<%= application.getContextPath() %>/ItemController?action=deleteitem&icode=<%= icode %>">Remove</a></td>
+                <td><a href="<%= application.getContextPath() %>/ItemController?action=edititem&icode=<%= icode %>"><button class="btn btn-success">Edit</button></a></td>
+                <td><a href="<%= application.getContextPath() %>/ItemController?action=deleteitem&icode=<%= icode %>"><button class="btn btn-danger">Remove</button></a></td>
             </tr>                
         <%		}
           	}

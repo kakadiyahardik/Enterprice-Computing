@@ -19,7 +19,7 @@
 <div class="container">
 
 	<form action="ItemController" method="post">
-    <table border="1">
+    <table class="table" border="1">
     	<tr><td>description</td><td><input type="text" name ="des"  /></td></tr>
         <tr><td>Stock</td><td><input type="text" name="stock" /></td></tr>
         <tr><td>Min_Stock</td><td><input type="text" name="min_stock" /></td></tr>
@@ -41,7 +41,7 @@
                
         </select></td></tr>
       
-        <tr><td><input type="submit" name="add" value="add" /></td></tr>
+        <tr><td colspan="2"><input type="submit"  class="btn btn-success" name="add" value="add" /></td></tr>
         <input type="hidden" name="action" value="insert" />
     </table>
     </form>

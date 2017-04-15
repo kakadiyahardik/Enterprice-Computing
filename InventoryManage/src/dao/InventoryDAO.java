@@ -369,7 +369,9 @@ public class InventoryDAO
 		 
 		 deleteFromCart(uid);
 		 for(CartItem c:cart){
+			 updateQty(c.getItem_code(), c.getQty());
 			 placeOrder(c, uid);
+			 
 		 }
 		 
 	 }
@@ -390,6 +392,21 @@ public class InventoryDAO
 			 }
 			 catch(Exception e){
 				 System.out.println(e+" problem in place order");
+			 }
+	 }
+	 
+	 public void updateQty(int item_code,int qty){
+		 
+		 try{
+			 PreparedStatement ps=con.prepareStatement("update item set istock=istock-? where icode=?");
+			
+			 ps.setInt(1, qty);
+			 ps.setInt(2, item_code);
+			 
+			 ps.executeUpdate();
+			 }
+			 catch(Exception e){
+				 System.out.println(e+" problem in update qty");
 			 }
 	 }
 	 

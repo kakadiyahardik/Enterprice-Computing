@@ -17,7 +17,7 @@
     <div class="container">
 <h3>Items Under Stock</h3>
         
-        <table class="gridtable" border="1">
+        <table class="table" border="1">
             <tr><th>Code</th><th>Description</th><th>Stock</th><th>Min_Stock</th><th>Cost</th><th>Category</th></tr>
         <%
             ArrayList<Inventory> stock = (ArrayList<Inventory>) request.getAttribute("understock");

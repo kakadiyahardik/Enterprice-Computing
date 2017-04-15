@@ -36,11 +36,11 @@
              
         </select>
          <input type="hidden" name="action" value="catwise"/> 
-         <input type="submit" value="display" /> 
+         <input type="submit" class="btn btn-success" value="display" /> 
         </form>
         
         
-        <table class="gridtable" border="1">
+        <table class="table" border="1">
             <tr><th>Code</th><th>Description</th><th>Stock</th><th>Min_Stock</th><th>Cost</th><th>Category</th></tr>
         <%
             ArrayList<Inventory> stock = (ArrayList<Inventory>) request.getAttribute("catwise");
